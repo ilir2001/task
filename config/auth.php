@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 return [
 
@@ -30,7 +30,7 @@ return [
     | All authentication drivers have a user provider. This defines how the
     | users are actually retrieved out of your database or other storage
     | mechanisms used by this application to persist your user's data.
-    |
+    | 
     | Supported: "session"
     |
     */
@@ -40,7 +40,7 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'sanctum' => [
+        'api' => [
             'driver' => 'passport',
             'provider' => 'users',
         ],
