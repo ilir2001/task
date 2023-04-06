@@ -28,7 +28,7 @@ class AuthController extends Controller
         }
         $data = [
             'user'=>$user,
-            'token'=>$user->createToken('MyToken')->plainTextToken
+            'token'=>$user->createToken('MyToken')->accessToken
         ];
         return ['status'=>1, 'message'=>'Login Successful!', 'data'=>$data];
     }   
