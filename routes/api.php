@@ -31,6 +31,3 @@ Route::middleware('auth:api')->group(function ($router) {
     $router->post('/posts/{id}/comments', [CommentController::class, 'store']);
 
 });
-
-
-

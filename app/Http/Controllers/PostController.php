@@ -9,11 +9,13 @@ use App\Models\User;
 
 class PostController extends Controller
 {
+    # index function i use for getting all post for anyone you dont need to have token for accessing posts
     public function index()
     {
         return Post::all();
     }
 
+    # store token i use store to create posts but first you need to have a token because the post need user_id that present who made this post
     public function store(Request $request)
     {
         if(! auth()->check()) {
@@ -35,6 +37,8 @@ class PostController extends Controller
             return response()->json(['status' => 'error' , 'message' => $e->getMessage()]);
         }
     }
+    
+    # show function uses for getting only one post aand is public you dont need a acces token to view specfic post
     public function show($id) {
         $post = Post::find($id);
         if (!$post) {
@@ -43,6 +47,7 @@ class PostController extends Controller
         return response()->json(['post' => $post]);
     }
 
+    # update function just like name help use update post but you can update only post you are owner, posts aren't yours you cannot update
     public function update(Request $request, $id) {
         $post = Post::find($id);
 
@@ -61,6 +66,7 @@ class PostController extends Controller
         return response()->json(['post' => $post]);
     }
 
+    # destory function uses for deleting the post by id only post you are owner of them, other posts you cannot delete
     public function destroy($id) {
         $post = Post::find($id);
 
