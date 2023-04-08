@@ -1,13 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-use Illuminate\Auth\Events\Registered;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -21,9 +18,9 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => "Fill all your fields"]);
         }
-    
+
         $user = User::where('email', $request->email)->first();
-    
+
         if (! $user || ! Hash::check($request->password, $user->password)) {
            return ['status'=>0,'message'=>'Invalid Credentials','data'=>[]];
         }
@@ -32,7 +29,7 @@ class AuthController extends Controller
             'token'=>$user->createToken('MyToken')->accessToken
         ];
         return ['status'=>1, 'message'=>'Login Successful!', 'data'=>$data];
-    }   
+    }
 
     # register function that insert data in database to help to regsiter users in database
     public function register(Request $request)
@@ -42,19 +39,19 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:8',
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json(['error' => "Fill all your fields"]);
         }
- 
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
-       
+
         $token = $user->createToken('PassportAuth')->accessToken;
- 
+
         return response()->json(['token' => $token], 200);
     }
 

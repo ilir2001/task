@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use Exception;
 
 
 class PostController extends Controller
@@ -21,7 +22,7 @@ class PostController extends Controller
         if(! auth()->check()) {
             return response()->json(['status' => 'error', 'message' => 'erro']);
         }
-        try {  
+        try {
             $user = auth()->user();
             $userID = $user->id;
             $user = User::find($userID);
@@ -37,7 +38,7 @@ class PostController extends Controller
             return response()->json(['status' => 'error' , 'message' => $e->getMessage()]);
         }
     }
-    
+
     # show function uses for getting only one post aand is public you dont need a acces token to view specfic post
     public function show($id) {
         $post = Post::find($id);
@@ -63,7 +64,10 @@ class PostController extends Controller
         $post->content = $request->input('content');
         $post->save();
 
-        return response()->json(['post' => $post]);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Post with id '.$post->id.' successfully updated',
+            'post' => $post]);
     }
 
     # destory function uses for deleting the post by id only post you are owner of them, other posts you cannot delete
